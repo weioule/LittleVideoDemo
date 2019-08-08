@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SmallVideoDemo</string>
+
+    <string name="no_network">暂无网络</string>
+    <string name="please_wait">请稍候...</string>
+    <string name="net_error">网络异常，请检查网络设置后\n点击空白处刷新</string>
+    <string name="no_net_error">网络不给力，请检查网络设置后\n点击空白处刷新</string>
+</resources>

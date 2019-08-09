@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +24,6 @@ import com.example.smallvideodemo.base.BaseViewHolder;
 import com.example.smallvideodemo.bean.VideoBean;
 import com.example.smallvideodemo.presenter.MainPresenter;
 import com.example.smallvideodemo.utils.GsonUtil;
-import com.example.smallvideodemo.utils.LogUtil;
 import com.example.smallvideodemo.utils.NetWorkUtil;
 import com.example.smallvideodemo.view.v.MainView;
 import com.example.smallvideodemo.weight.Constants;
@@ -41,6 +39,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -109,7 +108,6 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
     protected void onResume() {
         super.onResume();
 
-        //返回继续播放,这里获取的是实时位置，因为位置会因为广告而变化
         if (currentPlaying >= 0) {
             playVideo(currentPlaying);
         }
@@ -192,10 +190,8 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         if (currentPlaying == position && null != videoView && videoView.isPlaying())
             return;
         currentPlaying = position;
-
         BaseViewHolder holder = (BaseViewHolder) mRecyclerView.findViewHolderForLayoutPosition(position);
         if (null == holder || null == holder.itemView) return;
-
         videoView = holder.getView(R.id.video_view);
         if (null == videoView) return;
         videoView.requestFocus();
@@ -204,9 +200,7 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         img_thumb = holder.getView(R.id.img_thumb);
         progress = holder.getView(R.id.progress);
 
-        //播放
         doPlay();
-        //事件监听
         setListener(holder);
     }
 
@@ -347,8 +341,7 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
     private void startVideoPlay() {
         if (null == videoView) return;
         isPrepared = -1;
-        if (null != imgPlay)
-            imgPlay.animate().alpha(0f).scaleX(1f).scaleY(1f).start();
+        imgPlay.animate().alpha(0f).scaleX(1f).scaleY(1f).start();
         videoView.setVideoURI((Uri) videoView.getTag());
         videoView.start();
         hasVideoUri = true;
@@ -471,9 +464,10 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
     }
 
     @Override
-    public void setDatas(String result, int pageNum) {
+    public void setDatas(String result, int state) {
         preloading = false;
-        if (1 == pageNum) {
+        if (1 == state) {
+            currentPlaying = -1;
             Constants.videoDatas.clear();
             refreshView.finishRefresh();
         } else {
@@ -501,8 +495,19 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
     }
 
     @Override
-    public void onError(String msg) {
+    public void onError(String msg, int state) {
         preloading = false;
+        if (1 == state) {
+            currentPlaying = -1;
+            refreshView.finishRefresh();
+            List<VideoBean> videoDatas = new ArrayList<>();
+            videoDatas.addAll(Constants.videoDatas);
+            Constants.videoDatas.clear();
+            Constants.videoDatas.addAll(videoDatas);
+            mAdapter.notifyItemRangeChanged(0, videoDatas.size());
+        } else {
+            refreshView.finishLoadMore();
+        }
         if (Constants.videoDatas.size() <= 0) showErrorView(null);
     }
 

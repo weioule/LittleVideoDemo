@@ -17,6 +17,7 @@ public class DetailLayoutManager extends LinearLayoutManager implements Recycler
 
     private PagerSnapHelper mPagerSnapHelper;
     private OnViewPagerListener mOnViewPagerListener;
+    private int scrollState;
 
     public DetailLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
@@ -34,7 +35,8 @@ public class DetailLayoutManager extends LinearLayoutManager implements Recycler
     public void onChildViewAttachedToWindow(@NonNull View view) {
         if (!(view.getLayoutParams() instanceof RecyclerView.LayoutParams)) return;
         int position = getPosition(view);
-        if (mOnViewPagerListener != null) {
+        //(position == 0 && scrollState != RecyclerView.SCROLL_STATE_IDLE) 下拉刷新时
+        if ((scrollState == RecyclerView.SCROLL_STATE_IDLE || (position == 0 && scrollState != RecyclerView.SCROLL_STATE_IDLE)) && mOnViewPagerListener != null) {
             mOnViewPagerListener.onPageSelected(position, mDrift >= 0);
         }
     }
@@ -45,33 +47,27 @@ public class DetailLayoutManager extends LinearLayoutManager implements Recycler
 
     @Override
     public void onScrollStateChanged(int state) {
+        this.scrollState = state;
         switch (state) {
             case RecyclerView.SCROLL_STATE_IDLE:
                 View view = mPagerSnapHelper.findSnapView(this);
                 if (null == view || !(view.getLayoutParams() instanceof RecyclerView.LayoutParams))
                     return;
                 int position = getPosition(view);
-                if (mOnViewPagerListener != null && 0 != position) {
+                if (mOnViewPagerListener != null) {
                     mOnViewPagerListener.onPageSelected(position, mDrift >= 0);
                 }
 
                 break;
         }
-        super.onScrollStateChanged(state);
     }
 
     @Override
     public void onChildViewDetachedFromWindow(@NonNull View view) {
         //暂停播放操作
-        if (mDrift >= 0) {
-            if (mOnViewPagerListener != null && view.getLayoutParams() instanceof RecyclerView.LayoutParams)
-                mOnViewPagerListener.onPageRelease(true, getPosition(view));
-        } else {
-            if (mOnViewPagerListener != null && view.getLayoutParams() instanceof RecyclerView.LayoutParams)
-                mOnViewPagerListener.onPageRelease(false, getPosition(view));
-        }
+        if (mOnViewPagerListener != null)
+            mOnViewPagerListener.onPageRelease(mDrift >= 0, getPosition(view));
     }
-
 
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {

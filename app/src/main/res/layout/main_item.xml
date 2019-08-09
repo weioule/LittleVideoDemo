@@ -4,7 +4,7 @@
     android:id="@+id/content_view"
     android:layout_width="match_parent"
     android:layout_height="312dp"
-    android:padding="2dp">
+    android:padding="1dp">
 
     <ImageView
         android:id="@+id/item_bg"

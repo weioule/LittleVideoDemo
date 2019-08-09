@@ -12,5 +12,5 @@ public interface MainView extends BaseView {
 
     void setDatas(String result, int state);
 
-    void onError(String msg);
+    void onError(String msg, int state);
 }

@@ -29,7 +29,7 @@ public class MainPresenter extends BasePresenter<MainView, BaseModel> {
 
             @Override
             public void error(String msg) {
-                getMvpView().onError(msg);
+                getMvpView().onError(msg, state);
             }
         });
     }

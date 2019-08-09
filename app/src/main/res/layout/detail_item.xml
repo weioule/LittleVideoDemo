@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000">
+    android:background="@drawable/detail_bg">
 
     <com.example.smallvideodemo.weight.FullWindowVideoView
         android:id="@+id/video_view"
@@ -127,7 +127,7 @@
                 android:maxLength="8"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                tools:text="向日葵" />
+                tools:text="小哪吒" />
         </LinearLayout>
 
         <TextView
@@ -140,19 +140,7 @@
             android:maxLines="2"
             android:textColor="@color/white"
             android:textSize="14sp"
-            tools:text="想吃它都得排队去买，猜猜是什么美食想吃它都得排队去买，猜猜是什么美食" />
-
-        <!--<TextView-->
-        <!--android:id="@+id/tv_to_comment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:layout_marginTop="15dp"-->
-        <!--android:background="@drawable/video_comment_shape_bg"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:paddingLeft="12dp"-->
-        <!--android:text="说点什么..."-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textSize="14sp" />-->
+            tools:text="天地灵气孕育出一颗能量巨大的混元珠，元始天尊将混元珠提炼成灵珠和魔丸，灵珠投胎为人，助周伐纣时可堪大用" />
 
     </LinearLayout>
 

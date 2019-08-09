@@ -53,12 +53,12 @@ public class MainAdapter extends BaseRecylerViewAdapter<VideoBean> {
 
         int itemHeight;
         if (0 == adapterPosition) {
-            itemHeight = Utility.dp2px(holder.itemView.getContext(), 235);
+            itemHeight = Utility.dp2px(holder.itemView.getContext(), 200);
             //高度一致则无需再次设置
             if (itemHeight != holder.itemView.getLayoutParams().height)
                 holder.itemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, itemHeight));
         } else {
-            itemHeight = Utility.dp2px(holder.itemView.getContext(), 275);
+            itemHeight = Utility.dp2px(holder.itemView.getContext(), 245);
             //高度一致则无需再次设置
             if (itemHeight != holder.itemView.getLayoutParams().height)
                 holder.itemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, itemHeight));

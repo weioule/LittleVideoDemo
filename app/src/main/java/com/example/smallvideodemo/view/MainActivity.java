@@ -1,10 +1,7 @@
 package com.example.smallvideodemo.view;
 
 import android.content.Intent;
-import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -16,7 +13,6 @@ import com.example.smallvideodemo.base.BaseRecylerViewAdapter;
 import com.example.smallvideodemo.bean.VideoBean;
 import com.example.smallvideodemo.presenter.MainPresenter;
 import com.example.smallvideodemo.utils.GsonUtil;
-import com.example.smallvideodemo.utils.LogUtil;
 import com.example.smallvideodemo.view.v.MainView;
 import com.example.smallvideodemo.weight.Constants;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -24,7 +20,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.trello.rxlifecycle2.android.ActivityEvent;
-
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,6 +40,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     private String tag = "todayVideo";
     private RecyclerView recyclerView;
     private boolean preloading, notPreload;
+    private int lastPosition;
 
     @Override
     protected int getRootViewId() {
@@ -120,13 +116,13 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     }
 
     @Override
-    public void setDatas(String result, int pageNum) {
-        if (0 == pageNum) {
+    public void setDatas(String result, int state) {
+        if (0 == state) {
             hideLodingDialog();
-        } else if (1 == pageNum) {
+        } else if (1 == state) {
             Constants.videoDatas.clear();
             refreshView.finishRefresh();
-        } else if (pageNum > 1) {
+        } else if (state > 1) {
             preloading = false;
             refreshView.finishLoadMore();
         }
@@ -152,13 +148,19 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     }
 
     @Override
-    public void onError(String msg) {
-        preloading = false;
+    public void onError(String msg, int state) {
+        if (1 == state) {
+            refreshView.finishRefresh();
+        } else if (state > 1) {
+            preloading = false;
+            refreshView.finishLoadMore();
+        }
         if (Constants.videoDatas.size() <= 0) showErrorView(null);
     }
 
     @Override
     public void onItemClicked(int position) {
+        lastPosition = layoutManager.findLastVisibleItemPositions(new int[2])[1];
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra("position", position);
         forward(intent);
@@ -173,7 +175,8 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(RefreshItemEvent event) {
         if (event.getType() == 1) {
-            mAdapter.notifyItemChanged(event.getPosition());
+            mAdapter.notifyItemRangeChanged(lastPosition + 1, event.getPosition() - lastPosition);
+            lastPosition = event.getPosition();
         } else if (event.getType() == 2) {
             recyclerView.smoothScrollToPosition(event.getPosition());
         }

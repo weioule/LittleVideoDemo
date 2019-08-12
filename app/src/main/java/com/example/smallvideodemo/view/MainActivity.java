@@ -175,9 +175,9 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(RefreshItemEvent event) {
         if (event.getType() == 1) {
-            mAdapter.notifyItemRangeChanged(lastPosition + 1, event.getPosition() - lastPosition);
-            lastPosition = event.getPosition();
+            mAdapter.notifyItemChanged(event.getPosition());
         } else if (event.getType() == 2) {
+            mAdapter.notifyItemRangeChanged(lastPosition + 1, Constants.videoDatas.size() - lastPosition);
             recyclerView.smoothScrollToPosition(event.getPosition());
         }
     }

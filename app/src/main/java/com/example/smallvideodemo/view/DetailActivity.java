@@ -39,7 +39,6 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -102,6 +101,7 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         mAdapter.setRemoveItemListener(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.scrollToPosition(currentPlaying);
+        myLayoutManager.setOnSelect(true);
     }
 
     @Override
@@ -157,6 +157,7 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         myLayoutManager.setOnViewPagerListener(new DetailLayoutManager.OnViewPagerListener() {
             @Override
             public void onPageRelease(boolean isNext, final int position) {
+                mHandler.removeMessages(START_PROGRESS_ANIMATION);
                 int index;
                 if (isNext) {
                     index = 0;
@@ -180,15 +181,14 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         final VideoView videoView = itemView.findViewById(R.id.video_view);
         if (null == videoView) return;
         ImageView imgPlay = itemView.findViewById(R.id.img_play);
-        ImageView img_thumb = itemView.findViewById(R.id.img_thumb);
+        SmallVideoProgressView progress = itemView.findViewById(R.id.progress);
         videoView.stopPlayback();
+        progress.cancel();
         imgPlay.animate().alpha(0f).start();
-        img_thumb.animate().alpha(1).start();
     }
 
     private void playVideo(int position) {
-        if (currentPlaying == position && null != videoView && videoView.isPlaying())
-            return;
+        if (currentPlaying == position && null != videoView && videoView.isPlaying()) return;
         currentPlaying = position;
         BaseViewHolder holder = (BaseViewHolder) mRecyclerView.findViewHolderForLayoutPosition(position);
         if (null == holder || null == holder.itemView) return;
@@ -199,7 +199,7 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         imgPlay = holder.getView(R.id.img_play);
         img_thumb = holder.getView(R.id.img_thumb);
         progress = holder.getView(R.id.progress);
-
+        img_thumb.animate().alpha(1).start();
         doPlay();
         setListener(holder);
     }
@@ -346,7 +346,6 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         videoView.start();
         hasVideoUri = true;
 
-        mHandler.removeMessages(START_PROGRESS_ANIMATION);
         //延迟一秒开启加载动画
         Message message = Message.obtain();
         message.what = START_PROGRESS_ANIMATION;
@@ -355,7 +354,6 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                imgPlay.animate().alpha(0f).scaleX(1f).scaleY(1f).start();
                 img_thumb.animate().alpha(0).setDuration(200).start();
 
                 isPrepared = 1;
@@ -468,7 +466,9 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         preloading = false;
         if (1 == state) {
             currentPlaying = -1;
+            myLayoutManager.setOnSelect(true);
             Constants.videoDatas.clear();
+            mAdapter.notifyDataSetChanged();
             refreshView.finishRefresh();
         } else {
             refreshView.finishLoadMore();
@@ -500,11 +500,6 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         if (1 == state) {
             currentPlaying = -1;
             refreshView.finishRefresh();
-            List<VideoBean> videoDatas = new ArrayList<>();
-            videoDatas.addAll(Constants.videoDatas);
-            Constants.videoDatas.clear();
-            Constants.videoDatas.addAll(videoDatas);
-            mAdapter.notifyItemRangeChanged(0, videoDatas.size());
         } else {
             refreshView.finishLoadMore();
         }

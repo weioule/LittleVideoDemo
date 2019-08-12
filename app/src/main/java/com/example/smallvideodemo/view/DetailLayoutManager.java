@@ -13,15 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
  * on 2019/8/4.
  */
 public class DetailLayoutManager extends LinearLayoutManager implements RecyclerView.OnChildAttachStateChangeListener {
-    public int mDrift;//位移，用来判断移动方向
-
+    private int mDrift;//位移，用来判断移动方向
     private PagerSnapHelper mPagerSnapHelper;
     private OnViewPagerListener mOnViewPagerListener;
-    private int scrollState;
+    private boolean onSelect;
 
     public DetailLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
         mPagerSnapHelper = new PagerSnapHelper();
+    }
+
+    public void setOnSelect(boolean onSelect) {
+        this.onSelect = onSelect;
     }
 
     @Override
@@ -33,10 +36,9 @@ public class DetailLayoutManager extends LinearLayoutManager implements Recycler
 
     @Override
     public void onChildViewAttachedToWindow(@NonNull View view) {
-        if (!(view.getLayoutParams() instanceof RecyclerView.LayoutParams)) return;
         int position = getPosition(view);
-        //(position == 0 && scrollState != RecyclerView.SCROLL_STATE_IDLE) 下拉刷新时
-        if ((scrollState == RecyclerView.SCROLL_STATE_IDLE || (position == 0 && scrollState != RecyclerView.SCROLL_STATE_IDLE)) && mOnViewPagerListener != null) {
+        if (onSelect && mOnViewPagerListener != null) {
+            onSelect = false;
             mOnViewPagerListener.onPageSelected(position, mDrift >= 0);
         }
     }
@@ -47,17 +49,13 @@ public class DetailLayoutManager extends LinearLayoutManager implements Recycler
 
     @Override
     public void onScrollStateChanged(int state) {
-        this.scrollState = state;
         switch (state) {
             case RecyclerView.SCROLL_STATE_IDLE:
                 View view = mPagerSnapHelper.findSnapView(this);
-                if (null == view || !(view.getLayoutParams() instanceof RecyclerView.LayoutParams))
-                    return;
                 int position = getPosition(view);
                 if (mOnViewPagerListener != null) {
                     mOnViewPagerListener.onPageSelected(position, mDrift >= 0);
                 }
-
                 break;
         }
     }

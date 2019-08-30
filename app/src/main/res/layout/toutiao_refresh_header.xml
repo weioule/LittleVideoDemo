@@ -15,10 +15,10 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <com.example.littlevideodemo.weight.RefreshHeaderView.NewRefreshView
+            android:id="@+id/toutiao_refresh_view"
             android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:background="@drawable/ic_refresh_header" />
+            android:layout_height="22dp" />
 
         <TextView
             android:id="@+id/tv_header_detail"

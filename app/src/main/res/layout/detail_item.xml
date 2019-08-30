@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/detail_bg">
 
-    <com.example.smallvideodemo.weight.FullWindowVideoView
+    <com.example.littlevideodemo.weight.FullWindowVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +29,7 @@
         android:alpha="0"
         android:src="@drawable/ic_pause" />
 
-    <com.example.smallvideodemo.weight.DoubleLikeView
+    <com.example.littlevideodemo.weight.DoubleLikeView
         android:id="@+id/like"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -40,47 +40,45 @@
         android:layout_height="44dp"
         android:layout_marginTop="20dp"
         android:padding="13dp"
-        android:src="@drawable/icon_back" />
+        android:src="@drawable/ic_back" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="120dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/comments"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="1dp"
-            android:src="@drawable/ic_comment" />
+        <!--<ImageView-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:paddingLeft="4dp"-->
+            <!--android:paddingTop="4dp"-->
+            <!--android:paddingRight="4dp"-->
+            <!--android:paddingBottom="1dp"-->
+            <!--android:src="@drawable/ic_comment" />-->
 
-        <TextView
-            android:id="@+id/comments_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            tools:text="4380" />
+        <!--<TextView-->
+            <!--android:id="@+id/comments_num"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="14sp"-->
+            <!--tools:text="880" />-->
 
-        <com.example.smallvideodemo.weight.SmallVideoLikeView
+        <com.example.littlevideodemo.weight.LikeView
             android:id="@+id/lv_icon"
             android:layout_width="35dp"
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="-20dp"
             app:checkedColor="#ffd91c5a"
-            app:checkedLikeIconRes="@drawable/give_a_like"
+            app:checkedLikeIconRes="@drawable/give_like"
             app:cirRadius="14dp"
             app:cycleTime="1000"
             app:defaultColor="#ffcccccc"
-            app:defaultLikeIconRes="@drawable/no_give_a_like"
+            app:defaultLikeIconRes="@drawable/not_thumb_up"
             app:ringColors="#ffd91c5a" />
 
         <TextView
@@ -98,7 +96,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/shape_small_video_item_bottom_bg"
+        android:background="@drawable/shape_little_video_item_bottom_bg"
         android:orientation="vertical"
         android:paddingLeft="13dp"
         android:paddingTop="10dp"
@@ -144,7 +142,7 @@
 
     </LinearLayout>
 
-    <com.example.smallvideodemo.weight.SmallVideoProgressView
+    <com.example.littlevideodemo.weight.ProgressView
         android:id="@+id/progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

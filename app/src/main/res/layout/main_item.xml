@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/shape_small_video_item_bottom_bg"
+        android:background="@drawable/shape_little_video_item_bottom_bg"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingTop="50dp"
@@ -77,7 +77,7 @@
                 android:layout_marginRight="4dp"
                 android:layout_toLeftOf="@+id/give_a_like_num"
                 android:scaleType="fitXY"
-                android:src="@drawable/selector_small_video_give_a_like" />
+                android:src="@drawable/selector_little_video_give_a_like" />
 
             <TextView
                 android:id="@+id/give_a_like_num"

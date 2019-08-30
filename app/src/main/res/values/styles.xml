@@ -21,7 +21,7 @@
 
 
     <!--小视频点赞-->
-    <declare-styleable name="SmallVideoLikeView">
+    <declare-styleable name="LikeView">
         <attr name="defaultColor" format="color" />
         <attr name="checkedColor" format="color" />
         <attr name="ringColors" format="color" />
@@ -40,7 +40,7 @@
     </declare-styleable>
 
     <!--小视频进度条-->
-    <declare-styleable name="SmallVideoProgressView">
+    <declare-styleable name="ProgressView">
         <!--进度条初始颜色-->
         <attr name="progressColors" format="string" />
         <!--进度条最小宽度即初始宽度-->

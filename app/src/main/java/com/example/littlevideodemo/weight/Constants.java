@@ -24,7 +24,7 @@ public class Constants {
     public static List<VideoBean> videoDatas = new ArrayList<>();
 
     /**
-     * sharepreference key
+     * share_preference key
      */
     public static final String SHARE_TAG_SESSIONID = "sessionid";
     public static final String SP_KEY_APP_LOGIN_TOKEN = "app_login_token";

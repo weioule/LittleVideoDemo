@@ -57,7 +57,9 @@ public class MainActivity extends BaseTitleActivity<MainView, MainPresenter> imp
 
     @Override
     protected void initViews() {
-        EventBus.getDefault().register(this);
+        //页面数据异常时重新加载并初始化，EventBus不能多次注册
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
         hideLeftImage();
         mTitleText.setText(R.string.little_video);
         recyclerView = findViewById(R.id.recycler_view);

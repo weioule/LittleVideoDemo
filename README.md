@@ -17,4 +17,4 @@
 
 5 网络框架是rxJava2 + retrofit2 
 
-6 最后是 加载框 和 单例Toast 与一些MVP的base基础类库的封装和一些工具类，哦对了，还有RecyclerView的分割线的定制。
+6 最后是 统一页面加载框 和 单例Toast 与一些MVP的base基础类库的封装和一些工具类，哦对了，还有RecyclerView的分割线的定制。

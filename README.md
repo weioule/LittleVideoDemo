@@ -1,7 +1,7 @@
 # LittleVideoDemo
 这是一个仿抖音小视频的demo
 
-我的AS是3.4.2版本，所以里面引用的包都是androidx版本的，没support什么事儿，不用大惊小怪
+我的AS是3.4.2版本，所以里面大多的包引用的都是androidx版本的，不用大惊小怪
 
 看看效果图：
 

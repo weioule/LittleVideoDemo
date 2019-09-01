@@ -465,10 +465,6 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
     public void setDatas(String result, int state) {
         preloading = false;
         if (1 == state) {
-            currentPlaying = -1;
-            myLayoutManager.setOnSelect(true);
-            Constants.videoDatas.clear();
-            mAdapter.notifyDataSetChanged();
             refreshView.finishRefresh();
         } else {
             refreshView.finishLoadMore();
@@ -477,11 +473,18 @@ public class DetailActivity extends BaseActivity<MainView, MainPresenter> implem
         List<VideoBean> beanList = GsonUtil.toList(result, VideoBean.class);
         if (null == beanList || beanList.size() <= 0) {
             if (Constants.videoDatas.size() <= 0) {
-                showErrorView(null);
+                showErrorView();
             } else {
                 notPreload = true;
             }
             return;
+        }
+
+        if (1 == state) {
+            currentPlaying = -1;
+            Constants.videoDatas.clear();
+            mAdapter.notifyDataSetChanged();
+            myLayoutManager.setOnSelect(true);
         }
 
         int oldSize = Constants.videoDatas.size();

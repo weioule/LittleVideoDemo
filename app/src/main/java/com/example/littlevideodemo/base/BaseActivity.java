@@ -36,11 +36,11 @@ import java.lang.reflect.Method;
  */
 public abstract class BaseActivity<V extends BaseView, P extends BasePresenter> extends RxAppCompatActivity {
 
+    protected P mPresenter;
     protected ImageView mErrorImg;
     protected TextView mErrorContent;
     protected RelativeLayout mErrorRl;
     private SweetAlertDialog mSweetAlertDialog;
-    protected P mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,22 +98,34 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter> 
         super.onDestroy();
     }
 
-    public void showErrorView(TextView titleText) {
+    public void showErrorView() {
+        showErrorView(null, null);
+    }
+
+    public void showErrorView(String errorMsg) {
+        showErrorView(null, errorMsg);
+    }
+
+    public void showErrorView(TextView titleText, String errorMsg) {
         hideLodingDialog();
         if (null != titleText) {
-            titleText.setText(getString(R.string.no_network));
+            if (TextUtils.isEmpty(errorMsg)) {
+                titleText.setText(getString(R.string.no_network));
+            } else {
+                titleText.setText(getString(R.string.error));
+            }
             LayoutInflater.from(this).inflate(R.layout.view_net_error, findViewById(R.id.container), true);
         } else {
             View view = LayoutInflater.from(this).inflate(R.layout.view_net_error, null, false);
             setContentView(view);
         }
 
-        RelativeLayout error_title = findViewById(R.id.net_error_title);
-        error_title.setVisibility(View.GONE);
         mErrorRl = findViewById(R.id.rl_net_error);
         mErrorImg = findViewById(R.id.iv_neterr);
         mErrorContent = findViewById(R.id.tv_neterr);
-        if (Utility.isNetworkAvailable(this)) {
+        if (!TextUtils.isEmpty(errorMsg)) {
+            mErrorContent.setText(errorMsg);
+        } else if (Utility.isNetworkAvailable(this)) {
             mErrorContent.setText(getString(R.string.net_error));
         } else {
             mErrorContent.setText(getString(R.string.no_net_error));

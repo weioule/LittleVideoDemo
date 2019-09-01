@@ -1,12 +1,12 @@
 package com.example.littlevideodemo.presenter;
 
 import com.example.littlevideodemo.MyApplication;
-import com.example.littlevideodemo.utils.SharePreferenceUtil;
-import com.example.littlevideodemo.utils.StringUtil;
-import com.example.littlevideodemo.view.v.MainView;
 import com.example.littlevideodemo.base.BaseModel;
 import com.example.littlevideodemo.net.api.ResultObserver;
 import com.example.littlevideodemo.utils.CacheUtil;
+import com.example.littlevideodemo.utils.SharePreferenceUtil;
+import com.example.littlevideodemo.utils.StringUtil;
+import com.example.littlevideodemo.view.v.MainView;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
 /**

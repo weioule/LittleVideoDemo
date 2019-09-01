@@ -39,12 +39,12 @@ public abstract class BasePresenter<V extends BaseView, M extends BaseModel> {
     }
 
     protected void showLoadingDialog() {
-        if (null != getMvpView())
+        if (null != getMvpView() && getMvpView() instanceof BaseActivity)
             ((BaseActivity) getMvpView()).showLodingDialog();
     }
 
     protected void hideLoadingDialog() {
-        if (null != getMvpView())
+        if (null != getMvpView() && getMvpView() instanceof BaseActivity)
             ((BaseActivity) getMvpView()).hideLodingDialog();
     }
 }

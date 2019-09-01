@@ -127,7 +127,6 @@ public class MainActivity extends BaseTitleActivity<MainView, MainPresenter> imp
         if (0 == state) {
             hideLodingDialog();
         } else if (1 == state) {
-            Constants.videoDatas.clear();
             refreshView.finishRefresh();
         } else if (state > 1) {
             preloading = false;
@@ -137,13 +136,15 @@ public class MainActivity extends BaseTitleActivity<MainView, MainPresenter> imp
         List<VideoBean> beanList = GsonUtil.toList(result, VideoBean.class);
         if (null == beanList || beanList.size() <= 0) {
             if (Constants.videoDatas.size() <= 0) {
-                showErrorView(null);
+                showErrorViews();
             } else {
                 showHint(state, getString(R.string.no_recommendation));
                 notPreload = true;
             }
             return;
         }
+
+        if (1 == state) Constants.videoDatas.clear();
 
         int count = 0;
         int oldSize = Constants.videoDatas.size();

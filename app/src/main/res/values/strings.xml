@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">LittleVideoDemo</string>
 
+    <string name="error">出错了</string>
     <string name="little_video">小视频</string>
     <string name="no_network">暂无网络</string>
     <string name="please_wait">请稍候...</string>

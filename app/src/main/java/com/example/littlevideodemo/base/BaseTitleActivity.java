@@ -61,7 +61,11 @@ public abstract class BaseTitleActivity<V extends BaseView, P extends BasePresen
     protected abstract void initViews();
 
     public void showErrorViews() {
-        showErrorView(mTitleText);
+        showErrorView(mTitleText, null);
+    }
+
+    public void showErrorViews(String errorMsg) {
+        showErrorView(mTitleText, errorMsg);
     }
 
     protected void onLeftImageClick() {
@@ -88,4 +92,5 @@ public abstract class BaseTitleActivity<V extends BaseView, P extends BasePresen
         mRightImage.setImageDrawable(drawable);
         mRightImage.setVisibility(View.VISIBLE);
     }
+
 }

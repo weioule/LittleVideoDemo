@@ -19,6 +19,7 @@ public class LogUtil {
 
     private static final String TAG = "LogUtil";
 
+    //可以在Application里统一与测试环境绑定，正式环境不打印log
     public static void setLogLevel(int level) {
         LEVEL = level;
     }

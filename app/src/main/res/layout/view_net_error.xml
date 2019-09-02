@@ -5,10 +5,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <include
-        android:id="@+id/net_error_title"
-        layout="@layout/common_title" />
-
     <ImageView
         android:id="@+id/iv_neterr"
         android:layout_width="200dp"
